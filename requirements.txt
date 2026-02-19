@@ -1,0 +1,5 @@
+streamlit
+numpy
+pandas
+plotly
+tensorflow-cpu   # lighter than full tensorflow, works on cloud
