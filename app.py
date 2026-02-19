@@ -28,14 +28,28 @@ with st.sidebar:
 if run_btn:
     sim = TBLSimulator()
     with st.spinner("Running simulations and benchmarks..."):
-        # Get results from all three backends (use same seed for comparability)
-        # We'll use numpy_run for the main chart (fast)
+        # Get results from all three backends
         results_np = sim.numpy_run(months, invest_rate, random_seed=42)
         df = pd.DataFrame(results_np)
-
+        
         # Benchmark
         bench = sim.benchmark(months=months, invest_rate=invest_rate)
-
+        
+        # 📊 DOWNLOAD BUTTON - Add this new section
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("### 📥 Export Results")
+        
+        # Convert DataFrame to CSV
+        csv = df.to_csv(index=False)
+        
+        # Create download button
+        st.sidebar.download_button(
+            label="📊 Download Simulation Data (CSV)",
+            data=csv,
+            file_name=f"tbl_results_{profile}_{months}months.csv",
+            mime="text/csv",
+            help="Click to download the simulation results as a CSV file"
+        )
     # Display chart
     st.subheader("TBL Scores Over Time")
     fig = go.Figure()
